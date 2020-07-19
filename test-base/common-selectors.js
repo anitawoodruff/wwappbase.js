@@ -78,7 +78,7 @@ General.CharityPageImpactAndDonate = {
 	TestSubmit: `div.section.donation-amount > small > button`,
 	Stripe: `div.PaymentRequestButton`,
     
-	amount: `div.WizardStage > div.section.donation-amount > div.form-group > span > input`,
+	amount: `div.WizardStage > div.section.donation-amount > div.form-group > div.input-group > input`,
 	"hide-amount-checkbox": `div.WizardStage > div.section.donation-amount > div:nth-child(2) > div > label > input[type="checkbox"]`,
 	name: `input[name="donorName"]`,
 	email: `input[name="donorEmail"]`,

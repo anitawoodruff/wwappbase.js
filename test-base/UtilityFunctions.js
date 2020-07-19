@@ -58,7 +58,6 @@ const doLogin = async ({page, username, password}) => {
 			throw new Error("Missing login details");
 		}
 	}
-	await page.$('.login-link');
 	await page.click('.login-link');
 	
 	await page.click('[name=email]');
@@ -67,7 +66,8 @@ const doLogin = async ({page, username, password}) => {
 	await page.type('[name=password]', password);
 
 	await page.keyboard.press('Enter');
-	await page.waitForSelector('.logout-link');
+	// wait for login dialog to disappear
+	await page.waitForSelector('[name=email]', { hidden: true });
 };
 
 // set when calling Jest CLI with --testURL $url
@@ -218,7 +218,7 @@ async function donate({
 	await page.waitForSelector(General.CharityPageImpactAndDonate.DonationButton);
 	await page.click(General.CharityPageImpactAndDonate.DonationButton);
     
-	await page.waitForSelector(General.CharityPageImpactAndDonate.amount);
+	await page.waitForSelector(General.CharityPageImpactAndDonate.amount, { timeout: 5000 });
 	if(Amount) {
 		await page.click(General.CharityPageImpactAndDonate.amount);
 		//clear field of default value
@@ -233,15 +233,12 @@ async function donate({
 	}
 	await advanceWizard({page});
 
-	// await page.waitForSelector(General.CharityPageImpactAndDonate.Previous);//This condition never triggers for some reason. Only seems to happen for logged-out donations
-	// await page.waitForSelector(`label.radio-inline`);
-
 	if(GiftAid) {
 		//need to make selectors for fillInForm to work with
 		await advanceWizard({page});
 	}
 
-	await page.waitForSelector(General.CharityPageImpactAndDonate.name);
+	await page.waitForSelector(General.CharityPageImpactAndDonate.name, { timeout: 5000 });
 	if(Details) { 
 		await fillInForm({
 			page,
